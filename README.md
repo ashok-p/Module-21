@@ -53,9 +53,22 @@ The deployer contract deploys the `token` and '`crowdsale` contracts, assigning 
 
 3. After purchasing tokens with test accounts, the total supply of minted tokens has gone from 35 to 38 ETH equivalent in wei, i.e.  3000000000000000000,  and the amount of wei that has been raised by the crowdsale is 3 ETHs as is seen above.
 
-### Optional: Use OpenZeppelin to extend the functionality of your crowdsale contract by adding time restrictions, refund capabilities, and a cap for the number of tokens that may be created.
+### Optional Features 
+Use OpenZeppelin to extend the functionality of your crowdsale contract by adding time restrictions, refund capabilities, and a cap for the number of tokens that may be created.
 
+The optional component is coded and deployed in the final code.
 
+To test the Optional Features, these steps were followed:
+
+- Send ether to the crowdsale from a different account (not the same account that is raising funds). Then, once you confirm that the crowdsale works as expected, try to add the token to your wallet and test a transaction.  
+
+- the close time is set `now + 5 minutes`  
+
+- When sending ether to the contract, make sure that you meet the contract’s `goal`. Then, finalize the sale using the Crowdsale contract's `finalize` function. To finalize the sale, `isOpen` must return false.
+
+- View your tokens in `MetaMask`. In `MetaMask`, click Add Token, then click Custom Token, and enter the token contract’s address. Make sure to purchase higher amounts of tokens in order to see the denomination appear in your wallet as more than a few wei worth.
+
+Example -[10000 cap. Purchased 7K tokens](Images/7k_pur_10k_cap.png) first, [then 3K](Images/3k_pur.png). [Goal Reached](Images/goal_10k_reached.png). Did a lot more testing with many scenerios, but did not save the screenshots everytime. Only saved a few to demonstrate that it was done.
 
 ## Installation Guide
 
@@ -74,68 +87,51 @@ open the Terminal window and clone as follows:
 
 The entire application files in the current directory are as follows:
 
-* execution_results              (screenshots used in README)
-    - after_deposit_eth_1.png
-    - click_on_compile.png
-    - compile_success.png
-    - compile.png
-    - deploy.png
-    - deployed_contract.png
-    - deposit_eth_1.png
-    - deposit_eth_5.png
-    - deposit_eth_10.png
-    - remix_main.png
-    - select_joint_savings.png
-    - set_addresses.png
-    - withdraw_5_eth_acct_1.png
-    - withdraw_10_eth_acct_2.png
-    - withdrawl_insuff_funds.png
-* joint_savings.sol             (solidity contract)
-* README.md                     (this file.. you are reading)
-* Starter_Code                  (Starter Code)
-    - joint_savings.sol         (starter code)
-
+* Images
+    - 4connect_ganache_remix_metmask.mov      (low resolution mov file)
+    - acct3_bal_95eth.png
+    - acct3_wants_t_buy_3_tokens.png
+    - all_accounts_updated.png
+    - connect_ganache_remix_metmask.mov       (high resolutuion mov file)
+    - total_supply_of_tokens.png
+    - wallet_before.png
+    - wallet_final.png
+* KaseiCoin.sol                               (coin contract)
+* KaseiCoinCrowdsale.sol                      (coin crowdsale contract)
+* README.md                                   ( you're reading this file)
+* Starter_Code                                (Starter Code)
+    - KaseiCoin.sol
+    - KaseiCoinCrowdsale.sol
+    - README.md
 ---
 ---
 
-## Deploy the JointSavings smart contract to Transfer and Withdraw funds
-The **JointSavings** contract was deployed using Remix IDE. The contract is defined in the file named `joint_savings.sol`, installed above.
-* Invoke [Remix IDE - https://remix.ethereum.org/](https://remix.ethereum.org/) on your web browser like `Chrome`.  
-* Use `Open Files` in the **File** section to navigate to `joint_savings.sol`
-* [click on `joint_savings.sol`](execution_results/remix_main.png) to compile and run
-      
-### Compile and Deploy the JointSavings Contract
+## Deploy the KaseiCoinCrowdsale smart contract 
+For the purpose of crowdsale, a deployer contract `KaseiCoinCrowdsaleDeployer` was defined in the file named `KaseiCoinCrowdsale.sol`. The same file also contains the `KaseiCoinCrowdsale` contract. The deployer contract deploys `KaseiCoin` contract, which is the minter contract, and `KaseiCoinCrowdsale` contract - the crowdsale contract. The minting rights are passed on to `KaseiCoinCrowdsale` contract so that tokens can be purchased and minted at the same time.
 
-* [Click on the image just top-left of Solidity Compiler text (looks like recycle sign)](execution_results/compile.png) to compile the contract. Look at the [Green checkmark](execution_results/compile_success.png)  for success!
-* Click on the image just below the `solidity compiler` button to navigate to the [Deploy & Run Transactions](execution_results/deploy.png) pane, and make sure that “Remix VM (London)” is selected as the environment.
-* Click the `Deploy` button to deploy your smart contract, and then confirm that it [successfully deployed](execution_results/deployed_contract.png).
+The contracts are deployed using Remix IDE. 
 
-### Interact with the Deployed JointSavings Contract
-* Use the `setAccounts` function to define the authorized Ethereum address that will be able to withdraw funds from your contract.
+* Invoke [Remix IDE - https://remix.ethereum.org/](https://remix.ethereum.org/) on your web browser like `Chrome`. 
+* Follow the steps outlined below to deploy the contract:
+    - Use `Open Files` in the **File** section to navigate to and select [KaseiCoinCrowdsale.sol](Images/click_on_contract.png)
+    - [Click on compile icon](Images/click_on_compile_icon.png) to [compile](Images/compile_contract.png) the contract   
+    - [Deploy](Images/click_on_deploy_and_run_icon.png) by clicking on the icon below the Compile icon.   
+    - Now [click to the Metmask (fox) sign](Images/select_account_for_deployment.png) and [select the account for deployment](Images/pick_account.png)
+    - Click on the Contract list to [select](Images/pick_deployer_contract.png) the deployer [contract](Images/contract_selected.png)      
+    - [Fill](Images/fill_the_Deployer_fields.png ) the deployer fields    
+    - [Get the wallet address](Images/pick_wallet_address_from_Ganache.png) from Ganache. 
+    - [Click on Transact](Images/deploy_clicking_transact.png) to Deploy  
+    - Now, deploy the crowdsale contract to Remix by following
+        - [click on crowdsale](click_crowdsale_from_deployed_contract.png) from the Deployed Contracts, and copy the address
+        - [select the crowdsale](Images/select_crowdsale_contract.png) contract from the list of contracts
+        - [paste the address copied above at field next to At Address](Images/paste_next_to_at_addr_n_click_At_Addr.png) and click on `At Address`
+     - Follow the same procedure as last 3 steps for the token contract
+        - [select KaseiCoin token](Images/select_coin_contract.png)
+        - [copy and paste the contract address](Images/paste_at_addr_n_click.png) and click `At Address`  
+    - You can see that now all the functions in both the contracts are visible now - [KaseiCoinCrowdsale Contract](Images/all_the_functions_visible_now.png), [KaseiCoin](Images/all_the_functions_2.png)
 
->NOTE
-You can either use the following Ethereum addresses or create new, dummy addresses on the Vanity-ETH (Links to an external site.) website, which includes an Ethereum vanity address generator.
-
->Dummy account1 address: 0x0c0669Cd5e60a6F4b8ce437E4a4A007093D368Cb
->Dummy account2 address: 0x7A1f3dFAa0a4a19844B606CD6e91d693083B12c0  
-
-* [We used the above addresses.](execution_results/set_addresses.png) 
-
-* Test the deposit functionality of your smart contract by sending the following amounts of ether. After each transaction, use the `contractBalance` variable to verify that the funds were added to your contract:
-
-    - Transaction 1: [Send 1 ether as wei](execution_results/after_deposit_eth_1.png)
-    - Transaction 2: [Send 10 ether as wei](execution_results/deposit_eth_10.png)
-    - Transaction 3: [Send 5 ether as wei](execution_results/deposit_eth_5.png)
->NOTE
-Remembering how to convert ether to wei and vice versa can be challenging. So, you can use a website like [Ethereum Unit Converter](https://eth-converter.com/) to ease doing the conversion.
-
-* Once you’ve successfully deposited funds into your contract, test the contract’s withdrawal functionality by withdrawing:  
-
-    - [5 ether into accountOne](execution_results/withdraw_5_eth_acct_1.png) 
-    - [10 ether into accountTwo](execution_results/withdraw_10_eth_acct_2.png) 
-    - [7 ether and check for insufficient funds](execution_results/withdrawl_insuff_funds.png)
-    
-You can review `contractBalance`, `lastToWithdraw` and `lastWithdrawAmount` variables to verify that the transaction accuracy in the screenshots above.
+From here on you can run the various functions to purchase and track the tokens etc. See the 
+**Contract Deployment and Evaluation Evidence** section above for the sample tests.
 
 ---
 ---
@@ -143,7 +139,7 @@ You can review `contractBalance`, `lastToWithdraw` and `lastWithdrawAmount` vari
 ## Technologies
 The application is developed using:  
 * Language: Solidity  
-* Development Environment: VS Code and Terminal
+* Development Environment: VS Code and Terminal, Metamask, Ganache, Remix
 * OS: Mac OS 12.1
 
 ---
